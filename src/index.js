@@ -8,9 +8,6 @@ dbConnection();
 app.use(cors());
 app.use(express.json());
 
-// Middleware para verificar el token de autenticación
-const validarJWT = require("./middleware/jwt.middleware");
-
 app.get("/api", (req, res) => {
   return res.json({
     msg: "Bienvenido al Api de mi E-Commerce",
