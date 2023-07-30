@@ -30,7 +30,7 @@ const crearUsuario = async (req, res) => {
       status,
     };
 
-    const new_user = await User.create(nuevo_usuario);
+    const new_user = await User(nuevo_usuario).save();
 
     return res.json({
       ok: true,
@@ -45,7 +45,6 @@ const crearUsuario = async (req, res) => {
     });
   }
 };
-
 
 const actualizarUsuario = async (req, res) => {
   try {

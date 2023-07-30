@@ -1,9 +1,3 @@
-const HttpStatusCodes = {
-  OK: 200,
-  BAD_REQUEST: 400,
-  INTERNAL_SERVER_ERROR: 500,
-};
-
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
 const { generarJWT } = require("../helpers/jwt.helper");
@@ -12,12 +6,10 @@ const registrarUsuario = async (req, res) => {
   try {
     const { user_name, password } = req.body;
 
-    // Validar datos de entrada aquí si es necesario
-
     const user = await User.findOne({ user_name: user_name });
 
     if (user) {
-      return res.status(HttpStatusCodes.BAD_REQUEST).json({
+      return res.status(400).json({
         ok: false,
         msg: `El usuario ${user_name} ya existe`,
         data: {},
@@ -42,9 +34,9 @@ const registrarUsuario = async (req, res) => {
       token,
     });
   } catch (error) {
-    return res.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json({
+    return res.status(500).json({
       ok: false,
-      msg: "Error al registrar el usuario",
+      msg: "Error en el servidor",
       data: {},
     });
   }
@@ -54,12 +46,10 @@ const iniciarSesion = async (req, res) => {
   try {
     const { user_name, password } = req.body;
 
-    // Validar datos de entrada aquí si es necesario
-
     const user = await User.findOne({ user_name: user_name });
 
     if (!user) {
-      return res.status(HttpStatusCodes.BAD_REQUEST).json({
+      return res.status(400).json({
         ok: false,
         msg: "Usuario o password incorrectos",
         data: {},
@@ -69,7 +59,7 @@ const iniciarSesion = async (req, res) => {
     const validPassword = bcrypt.compareSync(password, user.password);
 
     if (!validPassword) {
-      return res.status(HttpStatusCodes.BAD_REQUEST).json({
+      return res.status(400).json({
         ok: false,
         msg: "Usuario o password incorrectos",
         data: {},
@@ -85,9 +75,9 @@ const iniciarSesion = async (req, res) => {
       token,
     });
   } catch (error) {
-    return res.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json({
+    return res.status(500).json({
       ok: false,
-      msg: "Error al iniciar sesión",
+      msg: "Error en el servidor",
       data: {},
     });
   }
@@ -106,9 +96,9 @@ const renovarToken = async (req, res) => {
       token,
     });
   } catch (error) {
-    return res.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json({
+    return res.status(500).json({
       ok: false,
-      msg: "Error al renovar el token",
+      msg: "Error en el servidor",
       data: {},
     });
   }
