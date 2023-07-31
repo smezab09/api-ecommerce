@@ -3,6 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const { dbConnection } = require("./database/config");
 const app = express();
+const { validarJWT } = require("./middleware/jwt.middleware");
 
 dbConnection();
 app.use(cors());
